@@ -64,7 +64,7 @@ export default function AboutSection() {
             </div>
             <div className="p-6">
               <motion.p variants={variants} className="text-lg mb-4 font-ibm-vga">
-                I'm <span className="text-cyan-400">Darshan Jijhuvadia</span>, an AI Software Engineer specializing in 
+                I&apos;m <span className="text-cyan-400">Darshan Jijhuvadia</span>, an AI Software Engineer specializing in 
                 the design and implementation of artificial intelligence solutions.
               </motion.p>
 

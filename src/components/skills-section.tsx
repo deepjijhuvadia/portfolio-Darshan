@@ -102,7 +102,7 @@ export default function SkillsSection() {
           </motion.div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {skillCategories.map((category, idx) => (
+            {skillCategories.map((category) => (
               <motion.div
                 key={category.name}
                 variants={itemVariants}

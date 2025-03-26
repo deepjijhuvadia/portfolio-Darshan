@@ -94,10 +94,10 @@ export default function ContactSection() {
                   <span>CONTACT.EXE</span>
                 </div>
                 <div className="p-6">
-                  <h3 className="text-2xl font-bold font-ibm-bios mb-4">C:\Let's Connect</h3>
+                  <h3 className="text-2xl font-bold font-ibm-bios mb-4">C:\Let&apos;s Connect</h3>
                   <p className="font-ibm-vga mb-6">
-                    I'm currently open to new opportunities and collaborations. Whether you have a question
-                    or just want to say hi, I'll try my best to get back to you!
+                    I&apos;m currently open to new opportunities and collaborations. Whether you have a question
+                    or just want to say hi, I&apos;ll try my best to get back to you!
                   </p>
 
                   <div className="space-y-4 mt-8">

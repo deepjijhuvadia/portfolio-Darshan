@@ -3,14 +3,12 @@
 import { Suspense, useRef, useState, useEffect } from 'react';
 import { Canvas, useThree } from '@react-three/fiber';
 import { OrbitControls } from '@react-three/drei';
-import * as THREE from 'three';
 import { useTheme } from 'next-themes';
 import Particles from './Particles';
 import AIElements from './GeometricShapes';
 
 function CameraController() {
   const { camera, mouse } = useThree();
-  const cameraRef = useRef(camera);
   
   useEffect(() => {
     const handleMouseMove = () => {

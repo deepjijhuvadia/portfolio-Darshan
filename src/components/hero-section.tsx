@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useRef } from "react";
+import React from "react";
 import { motion } from "framer-motion";
 import { TypeAnimation } from "react-type-animation";
 
@@ -67,7 +67,7 @@ export default function HeroSection() {
             >
               <p className="text-lg text-muted-foreground">
                 I specialize in AI-driven solutions, leveraging machine learning, NLP, and advanced
-                model fine-tuning to create intelligent applications and systems. Let's build the future together.
+                model fine-tuning to create intelligent applications and systems. Let&apos;s build the future together.
               </p>
             </motion.div>
 

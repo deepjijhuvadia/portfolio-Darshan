@@ -1,6 +1,6 @@
 import { useRef } from 'react';
 import { useFrame } from '@react-three/fiber';
-import { Box, Cylinder, Sphere, Ring, Torus } from '@react-three/drei';
+import { Box, Sphere } from '@react-three/drei';
 import * as THREE from 'three';
 import { useTheme } from 'next-themes';
 

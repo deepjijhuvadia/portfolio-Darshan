@@ -14,17 +14,6 @@ export default function Particles({ count = 2000 }: ParticlesProps) {
   
   const points = useRef<THREE.Points>(null!);
   
-  const particleColors = useMemo(() => {
-    const colors = [
-      new THREE.Color('#60a5fa'), // blue-400
-      new THREE.Color('#3b82f6'), // blue-500
-      new THREE.Color('#22d3ee'), // cyan-400
-      new THREE.Color('#a855f7'), // purple-500
-    ];
-    
-    return colors;
-  }, []);
-  
   // Generate random positions for particles
   const particlesPosition = useMemo(() => {
     const positions = new Float32Array(count * 3);
