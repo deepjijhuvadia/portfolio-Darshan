@@ -209,7 +209,7 @@ export default function ContactSection() {
                     {formStatus === "success" && (
                       <div className="flex items-center gap-2 text-green-500 bg-green-500/10 p-3 rounded-lg font-ibm-vga">
                         <CheckCircle size={18} />
-                        <span>C:\{'>'}Message sent successfully! I'll get back to you soon.</span>
+                        <span>C:\{'>'}Message sent successfully! I&apos;ll get back to you soon.</span>
                       </div>
                     )}
 
