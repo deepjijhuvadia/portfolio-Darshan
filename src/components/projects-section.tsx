@@ -46,7 +46,6 @@ const projects = [
 ];
 
 export default function ProjectsSection() {
-  const [hoveredProject, setHoveredProject] = useState<number | null>(null);
   const [ref, inView] = useInView({
     triggerOnce: true,
     threshold: 0.1,
@@ -102,8 +101,6 @@ export default function ProjectsSection() {
                 key={idx}
                 variants={itemVariants}
                 className="te-card group te-hover-effect"
-                onMouseEnter={() => setHoveredProject(idx)}
-                onMouseLeave={() => setHoveredProject(null)}
               >
                 <div className="border-b border-border pb-2 mb-4 flex justify-between items-center">
                   <h3 className="font-bold font-ibm text-lg">{project.title}</h3>

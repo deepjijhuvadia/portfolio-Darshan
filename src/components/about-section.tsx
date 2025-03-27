@@ -79,7 +79,7 @@ export default function AboutSection() {
             }}
           >
             <motion.p variants={variants} className="mb-4 font-ibm">
-              I'm <span className="text-accent font-medium">Darshan Jijhuvadia</span>, an AI Software Engineer specializing in 
+              I&apos;m <span className="text-accent font-medium">Darshan Jijhuvadia</span>, an AI Software Engineer specializing in 
               the design and implementation of artificial intelligence solutions.
             </motion.p>
 

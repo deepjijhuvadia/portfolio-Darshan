@@ -1,6 +1,6 @@
 "use client";
 
-import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
+import React, { createContext, useContext, useState, useEffect, ReactNode, useRef } from 'react';
 
 interface ScrollContextType {
   scrollY: number;
@@ -32,8 +32,8 @@ export default function ScrollAnimationProvider({ children }: ScrollAnimationPro
   const [isAtTop, setIsAtTop] = useState(true);
   const [isAtBottom, setIsAtBottom] = useState(false);
   
-  // Scroll timer for tracking if user is actively scrolling
-  let scrollTimer: NodeJS.Timeout | null = null;
+  // Use useRef for the scroll timer to preserve it between renders
+  const scrollTimerRef = useRef<NodeJS.Timeout | null>(null);
 
   useEffect(() => {
     // Only run on client
@@ -65,12 +65,12 @@ export default function ScrollAnimationProvider({ children }: ScrollAnimationPro
       setIsScrolling(true);
       
       // Clear previous timer
-      if (scrollTimer) {
-        clearTimeout(scrollTimer);
+      if (scrollTimerRef.current) {
+        clearTimeout(scrollTimerRef.current);
       }
       
       // Set new timer to detect when scrolling stops
-      scrollTimer = setTimeout(() => {
+      scrollTimerRef.current = setTimeout(() => {
         setIsScrolling(false);
       }, 150);
     };
@@ -84,8 +84,8 @@ export default function ScrollAnimationProvider({ children }: ScrollAnimationPro
     // Cleanup
     return () => {
       window.removeEventListener('scroll', handleScroll);
-      if (scrollTimer) {
-        clearTimeout(scrollTimer);
+      if (scrollTimerRef.current) {
+        clearTimeout(scrollTimerRef.current);
       }
     };
   }, [prevScrollY]);
