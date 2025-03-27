@@ -1,8 +1,6 @@
 # Retro PC-Themed Portfolio
 
 A modern web darshanjijhuvadia@Darshans-MacBook-Air portfolio % git remote add origin <https://github.com/deepjijhuvadia/portfolio-Darshan.git>
-zsh: parse error near `\n'
-darshanjijhuvadia@Darshans-MacBook-Air portfolio % portfolio featuring nostalgic old-school PC styling with IBM VGA and BIOS fonts from the MS-DOS era.
 
 ## Features
 
