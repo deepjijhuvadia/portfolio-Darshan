@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { useInView } from "react-intersection-observer";
 import { Mail, Github, Linkedin, Send, CheckCircle, AlertCircle } from "lucide-react";
 
@@ -18,6 +18,7 @@ export default function ContactSection() {
   });
 
   const [formStatus, setFormStatus] = useState<"idle" | "submitting" | "success" | "error">("idle");
+  const [hoveredLink, setHoveredLink] = useState<string | null>(null);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setFormState({
@@ -47,7 +48,8 @@ export default function ContactSection() {
     visible: {
       opacity: 1,
       transition: {
-        staggerChildren: 0.1,
+        staggerChildren: 0.08,
+        delayChildren: 0.1,
       },
     },
   };
@@ -64,192 +66,396 @@ export default function ContactSection() {
     },
   };
 
+  const linkVariants = {
+    initial: { 
+      x: 0,
+      backgroundColor: "transparent",
+    },
+    hover: { 
+      x: 5,
+      backgroundColor: "rgba(255, 92, 0, 0.05)",
+      transition: { 
+        duration: 0.2,
+        ease: "easeOut",
+      }
+    }
+  };
+
+  const iconMotion = {
+    initial: { scale: 1 },
+    hover: { 
+      scale: 1.15,
+      transition: { 
+        type: "spring",
+        stiffness: 500,
+        damping: 15
+      }
+    }
+  };
+
   return (
     <section id="contact" className="py-20 md:py-32 relative">
-      {/* Background elements */}
-      <div className="absolute inset-0 -z-10">
-        <div className="absolute right-0 bottom-0 w-72 h-72 bg-blue-500/10 rounded-full blur-3xl" />
-        <div className="absolute left-0 top-0 w-72 h-72 bg-cyan-500/10 rounded-full blur-3xl" />
+      {/* Minimal background accent */}
+      <div className="absolute inset-0 -z-10 overflow-hidden">
+        <div className="absolute right-0 bottom-0 w-full h-px bg-accent/10"></div>
       </div>
 
-      <div className="container mx-auto px-6">
+      <div className="container mx-auto px-4">
         <motion.div
           ref={ref}
           variants={containerVariants}
           initial="hidden"
           animate={inView ? "visible" : "hidden"}
-          className="max-w-5xl mx-auto"
+          className="max-w-4xl mx-auto"
         >
-          <motion.div variants={itemVariants} className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold font-ibm-bios">
-              <span className="neon-text">Get In Touch</span>
+          <motion.div 
+            variants={itemVariants} 
+            className="text-center mb-16"
+            whileInView={{ 
+              opacity: [0.5, 1],
+              y: [10, 0],
+              transition: { duration: 0.5 }
+            }}
+            viewport={{ once: true, margin: "-100px" }}
+          >
+            <h2 className="text-2xl md:text-3xl font-bold font-ibm te-crt-distortion">
+              Get In Touch
             </h2>
-            <div className="mt-3 h-1 w-20 bg-gradient-to-r from-blue-500 to-cyan-500 mx-auto rounded-full" />
+            <motion.div 
+              className="mt-3 h-px w-16 bg-accent mx-auto"
+              initial={{ width: 0 }}
+              whileInView={{ width: "4rem" }}
+              transition={{ duration: 0.8, delay: 0.2 }}
+              viewport={{ once: true }}
+            ></motion.div>
           </motion.div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
-            <motion.div variants={itemVariants} className="space-y-6">
-              <div className="retro-window">
-                <div className="retro-window-header">
-                  <span>CONTACT.EXE</span>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <motion.div 
+              variants={itemVariants} 
+              className="space-y-6"
+            >
+              <motion.div 
+                className="te-card h-full"
+                whileHover={{ 
+                  y: -5,
+                  transition: { duration: 0.2 }
+                }}
+                initial={{ opacity: 0, x: -20 }}
+                whileInView={{ 
+                  opacity: 1, 
+                  x: 0,
+                  transition: { duration: 0.5 }
+                }}
+                viewport={{ once: true }}
+              >
+                <motion.h3 
+                  className="text-xl font-bold font-ibm mb-4 border-b border-border pb-2"
+                  initial={{ opacity: 0 }}
+                  whileInView={{ 
+                    opacity: 1,
+                    transition: { duration: 0.5, delay: 0.2 }
+                  }}
+                  viewport={{ once: true }}
+                >
+                  Contact Info
+                </motion.h3>
+
+                <div className="space-y-5 mt-2">
+                  <motion.a
+                    href="mailto:darshanjijhuvadia@gmail.com"
+                    className="flex items-center gap-3 p-2 rounded-sm transition-colors"
+                    variants={linkVariants}
+                    initial="initial"
+                    whileHover="hover"
+                    onHoverStart={() => setHoveredLink("email")}
+                    onHoverEnd={() => setHoveredLink(null)}
+                    whileTap={{ scale: 0.98 }}
+                  >
+                    <motion.div
+                      variants={iconMotion}
+                      animate={hoveredLink === "email" ? "hover" : "initial"}
+                    >
+                      <Mail size={18} className="text-accent" />
+                    </motion.div>
+                    <div>
+                      <div className="text-sm font-medium">Email</div>
+                      <div className="text-xs text-foreground/70">darshanjijhuvadia@gmail.com</div>
+                    </div>
+                  </motion.a>
+
+                  <motion.a
+                    href="https://github.com/deepjijhuvadia"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center gap-3 p-2 rounded-sm transition-colors"
+                    variants={linkVariants}
+                    initial="initial"
+                    whileHover="hover"
+                    onHoverStart={() => setHoveredLink("github")}
+                    onHoverEnd={() => setHoveredLink(null)}
+                    whileTap={{ scale: 0.98 }}
+                  >
+                    <motion.div
+                      variants={iconMotion}
+                      animate={hoveredLink === "github" ? "hover" : "initial"}
+                    >
+                      <Github size={18} className="text-accent" />
+                    </motion.div>
+                    <div>
+                      <div className="text-sm font-medium">GitHub</div>
+                      <div className="text-xs text-foreground/70">github.com/deepjijhuvadia</div>
+                    </div>
+                  </motion.a>
+
+                  <motion.a
+                    href="https://www.linkedin.com/in/darshan-jijhuvadia/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center gap-3 p-2 rounded-sm transition-colors"
+                    variants={linkVariants}
+                    initial="initial"
+                    whileHover="hover"
+                    onHoverStart={() => setHoveredLink("linkedin")}
+                    onHoverEnd={() => setHoveredLink(null)}
+                    whileTap={{ scale: 0.98 }}
+                  >
+                    <motion.div
+                      variants={iconMotion}
+                      animate={hoveredLink === "linkedin" ? "hover" : "initial"}
+                    >
+                      <Linkedin size={18} className="text-accent" />
+                    </motion.div>
+                    <div>
+                      <div className="text-sm font-medium">LinkedIn</div>
+                      <div className="text-xs text-foreground/70">linkedin.com/in/darshan-jijhuvadia</div>
+                    </div>
+                  </motion.a>
                 </div>
-                <div className="p-6">
-                  <h3 className="text-2xl font-bold font-ibm-bios mb-4">C:\Let&apos;s Connect</h3>
-                  <p className="font-ibm-vga mb-6">
-                    I&apos;m currently open to new opportunities and collaborations. Whether you have a question
-                    or just want to say hi, I&apos;ll try my best to get back to you!
-                  </p>
-
-                  <div className="space-y-4 mt-8">
-                    <a
-                      href="mailto:darshanjijhuvadia@gmail.com"
-                      className="flex items-center gap-3 retro-terminal p-4 rounded-lg hover:brightness-110 transition-all"
-                    >
-                      <div className="p-2">
-                        <Mail size={24} className="text-green-400" />
-                      </div>
-                      <div className="font-ibm-vga">
-                        <div className="font-medium">Email:</div>
-                        <div className="text-sm text-green-400">darshanjijhuvadia@gmail.com</div>
-                      </div>
-                    </a>
-
-                    <a
-                      href="https://github.com/deepjijhuvadia"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="flex items-center gap-3 retro-terminal p-4 rounded-lg hover:brightness-110 transition-all"
-                    >
-                      <div className="p-2">
-                        <Github size={24} className="text-green-400" />
-                      </div>
-                      <div className="font-ibm-vga">
-                        <div className="font-medium">GitHub:</div>
-                        <div className="text-sm text-green-400">github.com/deepjijhuvadia</div>
-                      </div>
-                    </a>
-
-                    <a
-                      href="https://www.linkedin.com/in/darshan-jijhuvadia/"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="flex items-center gap-3 retro-terminal p-4 rounded-lg hover:brightness-110 transition-all"
-                    >
-                      <div className="p-2">
-                        <Linkedin size={24} className="text-green-400" />
-                      </div>
-                      <div className="font-ibm-vga">
-                        <div className="font-medium">LinkedIn:</div>
-                        <div className="text-sm text-green-400">linkedin.com/in/darshan-jijhuvadia</div>
-                      </div>
-                    </a>
-                  </div>
-                </div>
-              </div>
+              </motion.div>
             </motion.div>
 
-            <motion.div variants={itemVariants}>
-              <div className="retro-window">
-                <div className="retro-window-header">
-                  <span>MESSAGE.TXT</span>
-                </div>
-                <div className="p-6">
-                  <form onSubmit={handleSubmit} className="space-y-5 font-ibm-vga">
-                    <div>
-                      <label htmlFor="name" className="block text-sm font-medium mb-2">
-                        C:\{'>'}Enter Your Name:
-                      </label>
-                      <input
-                        type="text"
-                        id="name"
-                        name="name"
-                        value={formState.name}
-                        onChange={handleChange}
-                        required
-                        className="w-full px-4 py-3 retro-terminal font-ibm-vga focus:ring-2 focus:ring-cyan-500 focus:outline-none"
-                        disabled={formStatus === "submitting" || formStatus === "success"}
-                        suppressHydrationWarning
-                      />
-                    </div>
+            <motion.div 
+              variants={itemVariants}
+              initial={{ opacity: 0, x: 20 }}
+              whileInView={{ 
+                opacity: 1, 
+                x: 0,
+                transition: { duration: 0.5, delay: 0.2 }
+              }}
+              viewport={{ once: true }}
+            >
+              <motion.div 
+                className="te-card te-scanlines h-full"
+                whileHover={{ 
+                  y: -5,
+                  transition: { duration: 0.2 }
+                }}
+              >
+                <motion.h3 
+                  className="text-xl font-bold font-ibm mb-4 border-b border-border pb-2"
+                  initial={{ opacity: 0 }}
+                  whileInView={{ 
+                    opacity: 1,
+                    transition: { duration: 0.5, delay: 0.3 }
+                  }}
+                  viewport={{ once: true }}
+                >
+                  Send Message
+                </motion.h3>
+                
+                <form onSubmit={handleSubmit} className="space-y-4 font-ibm" suppressHydrationWarning>
+                  <motion.div
+                    initial={{ opacity: 0, y: 10 }}
+                    whileInView={{ 
+                      opacity: 1, 
+                      y: 0,
+                      transition: { duration: 0.4, delay: 0.4 }
+                    }}
+                    viewport={{ once: true }}
+                  >
+                    <label htmlFor="name" className="block text-xs font-medium mb-1">
+                      Name
+                    </label>
+                    <motion.input
+                      whileFocus={{ 
+                        boxShadow: "0 0 0 2px rgba(255, 92, 0, 0.2)",
+                        borderColor: "hsl(var(--accent))"
+                      }}
+                      type="text"
+                      id="name"
+                      name="name"
+                      value={formState.name}
+                      onChange={handleChange}
+                      required
+                      className="w-full px-3 py-2 bg-background border border-border focus:outline-none text-sm transition-colors"
+                      disabled={formStatus === "submitting" || formStatus === "success"}
+                      suppressHydrationWarning
+                    />
+                  </motion.div>
 
-                    <div>
-                      <label htmlFor="email" className="block text-sm font-medium mb-2">
-                        C:\{'>'}Enter Email Address:
-                      </label>
-                      <input
-                        type="email"
-                        id="email"
-                        name="email"
-                        value={formState.email}
-                        onChange={handleChange}
-                        required
-                        className="w-full px-4 py-3 retro-terminal font-ibm-vga focus:ring-2 focus:ring-cyan-500 focus:outline-none"
-                        disabled={formStatus === "submitting" || formStatus === "success"}
-                        suppressHydrationWarning
-                      />
-                    </div>
+                  <motion.div
+                    initial={{ opacity: 0, y: 10 }}
+                    whileInView={{ 
+                      opacity: 1, 
+                      y: 0,
+                      transition: { duration: 0.4, delay: 0.5 }
+                    }}
+                    viewport={{ once: true }}
+                  >
+                    <label htmlFor="email" className="block text-xs font-medium mb-1">
+                      Email Address
+                    </label>
+                    <motion.input
+                      whileFocus={{ 
+                        boxShadow: "0 0 0 2px rgba(255, 92, 0, 0.2)",
+                        borderColor: "hsl(var(--accent))"
+                      }}
+                      type="email"
+                      id="email"
+                      name="email"
+                      value={formState.email}
+                      onChange={handleChange}
+                      required
+                      className="w-full px-3 py-2 bg-background border border-border focus:outline-none text-sm transition-colors"
+                      disabled={formStatus === "submitting" || formStatus === "success"}
+                      suppressHydrationWarning
+                    />
+                  </motion.div>
 
-                    <div>
-                      <label htmlFor="message" className="block text-sm font-medium mb-2">
-                        C:\{'>'}Enter Message:
-                      </label>
-                      <textarea
-                        id="message"
-                        name="message"
-                        value={formState.message}
-                        onChange={handleChange}
-                        required
-                        rows={5}
-                        className="w-full px-4 py-3 retro-terminal font-ibm-vga focus:ring-2 focus:ring-cyan-500 focus:outline-none"
-                        disabled={formStatus === "submitting" || formStatus === "success"}
-                        suppressHydrationWarning
-                      />
-                    </div>
+                  <motion.div
+                    initial={{ opacity: 0, y: 10 }}
+                    whileInView={{ 
+                      opacity: 1, 
+                      y: 0,
+                      transition: { duration: 0.4, delay: 0.6 }
+                    }}
+                    viewport={{ once: true }}
+                  >
+                    <label htmlFor="message" className="block text-xs font-medium mb-1">
+                      Message
+                    </label>
+                    <motion.textarea
+                      whileFocus={{ 
+                        boxShadow: "0 0 0 2px rgba(255, 92, 0, 0.2)",
+                        borderColor: "hsl(var(--accent))"
+                      }}
+                      id="message"
+                      name="message"
+                      value={formState.message}
+                      onChange={handleChange}
+                      required
+                      rows={4}
+                      className="w-full px-3 py-2 bg-background border border-border focus:outline-none text-sm transition-colors"
+                      disabled={formStatus === "submitting" || formStatus === "success"}
+                      suppressHydrationWarning
+                    ></motion.textarea>
+                  </motion.div>
 
+                  <motion.div
+                    initial={{ opacity: 0, y: 10 }}
+                    whileInView={{ 
+                      opacity: 1, 
+                      y: 0,
+                      transition: { duration: 0.4, delay: 0.7 }
+                    }}
+                    viewport={{ once: true }}
+                  >
+                    <motion.button
+                      type="submit"
+                      disabled={formStatus === "submitting" || formStatus === "success"}
+                      className={`te-button-filled w-full flex items-center justify-center gap-2 te-button-glow ${
+                        formStatus === "submitting" ? "opacity-70" : ""
+                      }`}
+                      whileHover={{ scale: 1.02 }}
+                      whileTap={{ scale: 0.98 }}
+                      suppressHydrationWarning
+                    >
+                      <AnimatePresence mode="wait">
+                        {formStatus === "idle" && (
+                          <motion.div 
+                            className="flex items-center gap-2"
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1 }}
+                            exit={{ opacity: 0 }}
+                          >
+                            <span>Send Message</span>
+                            <Send size={14} />
+                          </motion.div>
+                        )}
+                        {formStatus === "submitting" && (
+                          <motion.div
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1 }}
+                            exit={{ opacity: 0 }}
+                          >
+                            <motion.span
+                              animate={{
+                                opacity: [1, 0.5, 1],
+                              }}
+                              transition={{
+                                duration: 1.5,
+                                repeat: Infinity,
+                                ease: "easeInOut",
+                              }}
+                            >
+                              Sending...
+                            </motion.span>
+                          </motion.div>
+                        )}
+                        {formStatus === "success" && (
+                          <motion.div 
+                            className="flex items-center gap-2"
+                            initial={{ opacity: 0, scale: 0.8 }}
+                            animate={{ opacity: 1, scale: 1 }}
+                            exit={{ opacity: 0 }}
+                          >
+                            <span>Message Sent</span>
+                            <CheckCircle size={14} />
+                          </motion.div>
+                        )}
+                        {formStatus === "error" && (
+                          <motion.div 
+                            className="flex items-center gap-2"
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1 }}
+                            exit={{ opacity: 0 }}
+                          >
+                            <span>Try Again</span>
+                            <AlertCircle size={14} />
+                          </motion.div>
+                        )}
+                      </AnimatePresence>
+                    </motion.button>
+                  </motion.div>
+
+                  <AnimatePresence>
                     {formStatus === "success" && (
-                      <div className="flex items-center gap-2 text-green-500 bg-green-500/10 p-3 rounded-lg font-ibm-vga">
-                        <CheckCircle size={18} />
-                        <span>C:\{'>'}Message sent successfully! I&apos;ll get back to you soon.</span>
-                      </div>
+                      <motion.div 
+                        className="text-xs text-accent mt-2 text-center"
+                        initial={{ opacity: 0, y: -10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: 10 }}
+                        transition={{ duration: 0.5 }}
+                      >
+                        Thank you for your message! I&apos;ll get back to you soon.
+                      </motion.div>
                     )}
 
                     {formStatus === "error" && (
-                      <div className="flex items-center gap-2 text-red-500 bg-red-500/10 p-3 rounded-lg font-ibm-vga">
-                        <AlertCircle size={18} />
-                        <span>C:\{'>'}ERROR! Something went wrong. Please try again later.</span>
-                      </div>
+                      <motion.div 
+                        className="text-xs text-red-500 mt-2 text-center"
+                        initial={{ opacity: 0, y: -10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: 10 }}
+                        transition={{ duration: 0.5 }}
+                      >
+                        There was an error sending your message. Please try again.
+                      </motion.div>
                     )}
-
-                    <button
-                      type="submit"
-                      disabled={formStatus === "submitting" || formStatus === "success"}
-                      className={`w-full py-3 px-4 rounded-lg flex items-center justify-center gap-2 ${
-                        formStatus === "success"
-                          ? "bg-green-500 text-white"
-                          : "retro-terminal font-ibm-bios hover:brightness-110"
-                      } transition-all`}
-                      suppressHydrationWarning
-                    >
-                      {formStatus === "submitting" ? (
-                        <>
-                          <div className="animate-spin h-5 w-5 border-2 border-green-400 border-t-transparent rounded-full" />
-                          <span>C:\{'>'}SENDING...</span>
-                        </>
-                      ) : formStatus === "success" ? (
-                        <>
-                          <CheckCircle size={18} />
-                          <span>C:\{'>'}MESSAGE DELIVERED</span>
-                        </>
-                      ) : (
-                        <>
-                          <Send size={18} />
-                          <span>C:\{'>'}SEND_MESSAGE.EXE</span>
-                        </>
-                      )}
-                    </button>
-                  </form>
-                </div>
-              </div>
+                  </AnimatePresence>
+                </form>
+              </motion.div>
             </motion.div>
           </div>
         </motion.div>

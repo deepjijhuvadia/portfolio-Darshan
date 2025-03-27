@@ -4,6 +4,9 @@ import "./globals.css";
 import { ThemeProvider } from "@/components/theme-provider";
 import BackgroundWrapper from "@/components/background/BackgroundWrapper";
 import { ibmVGA, ibmBIOS } from "./fonts";
+import CustomCursor from "@/components/custom-cursor";
+import BootAnimation from "@/components/boot-animation";
+import ScrollAnimationProvider from "@/components/scroll-animation-provider";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -40,15 +43,19 @@ export default function RootLayout({
         ${ibmVGA.variable}
         ${ibmBIOS.variable}
         font-ibm-vga
-      `}>
+      `} suppressHydrationWarning>
         <ThemeProvider
           attribute="class"
           defaultTheme="dark"
           enableSystem
           disableTransitionOnChange
         >
-          <BackgroundWrapper />
-          {children}
+          <ScrollAnimationProvider>
+            <BackgroundWrapper />
+            <BootAnimation />
+            <CustomCursor />
+            {children}
+          </ScrollAnimationProvider>
         </ThemeProvider>
       </body>
     </html>

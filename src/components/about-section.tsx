@@ -34,13 +34,13 @@ export default function AboutSection() {
 
   return (
     <section id="about" className="py-20 md:py-32 relative">
-      {/* Background elements */}
-      <div className="absolute inset-0 -z-10">
-        <div className="absolute right-0 top-1/4 w-72 h-72 bg-cyan-500/10 rounded-full blur-3xl" />
-        <div className="absolute left-0 bottom-1/4 w-72 h-72 bg-blue-500/10 rounded-full blur-3xl" />
+      {/* Minimal background accent */}
+      <div className="absolute inset-0 -z-10 overflow-hidden">
+        <div className="absolute left-0 top-0 w-full h-px bg-accent/10"></div>
+        <div className="absolute left-0 top-0 w-px h-full bg-accent/10"></div>
       </div>
 
-      <div className="container mx-auto px-6">
+      <div className="container mx-auto px-4">
         <motion.div 
           ref={ref}
           variants={containerVariants}
@@ -48,50 +48,71 @@ export default function AboutSection() {
           animate={inView ? "visible" : "hidden"}
           className="max-w-4xl mx-auto"
         >
-          <motion.div variants={variants} className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold font-ibm-bios">
-              <span className="neon-text">About Me</span>
+          <motion.div 
+            variants={variants} 
+            className="text-center mb-16"
+            whileInView={{ 
+              opacity: [0.5, 1],
+              y: [10, 0],
+              transition: { duration: 0.5 }
+            }}
+            viewport={{ once: true, margin: "-100px" }}
+          >
+            <h2 className="text-2xl md:text-3xl font-bold font-ibm te-crt-distortion">
+              About Me
             </h2>
-            <div className="mt-3 h-1 w-20 bg-gradient-to-r from-blue-500 to-cyan-500 mx-auto rounded-full" />
+            <motion.div 
+              className="mt-3 h-px w-16 bg-accent mx-auto"
+              initial={{ width: 0 }}
+              whileInView={{ width: "4rem" }}
+              transition={{ duration: 0.8, delay: 0.2 }}
+              viewport={{ once: true }}
+            ></motion.div>
           </motion.div>
 
           <motion.div 
             variants={variants} 
-            className="retro-window"
+            className="te-card te-scanlines"
+            whileHover={{ 
+              y: -5,
+              transition: { duration: 0.2 }
+            }}
           >
-            <div className="retro-window-header">
-              <span>ABOUT.TXT</span>
-            </div>
-            <div className="p-6">
-              <motion.p variants={variants} className="text-lg mb-4 font-ibm-vga">
-                I&apos;m <span className="text-cyan-400">Darshan Jijhuvadia</span>, an AI Software Engineer specializing in 
-                the design and implementation of artificial intelligence solutions.
-              </motion.p>
+            <motion.p variants={variants} className="mb-4 font-ibm">
+              I'm <span className="text-accent font-medium">Darshan Jijhuvadia</span>, an AI Software Engineer specializing in 
+              the design and implementation of artificial intelligence solutions.
+            </motion.p>
 
-              <motion.p variants={variants} className="mb-4 font-ibm-vga">
-                › With expertise in <span className="text-cyan-400">LLMs, model fine-tuning, and AI-driven applications</span>, 
-                I build intelligent systems that solve complex problems.
-              </motion.p>
+            <motion.p variants={variants} className="mb-4">
+              <span className="text-accent">›</span> With expertise in <span className="font-medium">LLMs, model fine-tuning, and AI-driven applications</span>, 
+              I build intelligent systems that solve complex problems.
+            </motion.p>
 
-              <motion.p variants={variants} className="mb-4 font-ibm-vga">
-                › Currently working at <span className="text-cyan-400">Vizh AI Solutions</span>, I spearhead the development of 
-                advanced AI-powered APIs, integrating NLP and LLMs into web and software applications.
-              </motion.p>
+            <motion.p variants={variants} className="mb-4">
+              <span className="text-accent">›</span> Currently working at <span className="font-medium">Vizh AI Solutions</span>, I spearhead the development of 
+              advanced AI-powered APIs, integrating NLP and LLMs into web and software applications.
+            </motion.p>
 
-              <motion.p variants={variants} className="mb-4 font-ibm-vga">
-                › I hold a <span className="text-cyan-400">Bachelor of Technology degree in Computer Science</span> from 
-                Parul University, where I specialized in AI, LLMs, and object detection.
-              </motion.p>
+            <motion.p variants={variants} className="mb-4">
+              <span className="text-accent">›</span> I hold a <span className="font-medium">Bachelor of Technology degree in Computer Science</span> from 
+              Parul University, where I specialized in AI, LLMs, and object detection.
+            </motion.p>
 
-              <motion.div variants={variants} className="pt-4 flex justify-center">
-                <a 
-                  href="#contact" 
-                  className="px-8 py-4 retro-terminal font-ibm-bios text-center hover:brightness-110 transition-all"
-                >
-                  <span>C:\ GET_IN_TOUCH.EXE</span>
-                </a>
-              </motion.div>
-            </div>
+            <motion.div 
+              variants={variants} 
+              className="pt-4 flex justify-center"
+              initial={{ opacity: 0 }}
+              whileInView={{ opacity: 1 }}
+              transition={{ duration: 0.5, delay: 0.6 }}
+              viewport={{ once: true }}
+            >
+              <a 
+                href="#contact" 
+                className="te-button-filled w-full flex items-center justify-center gap-2 te-button-glow"
+              >
+                <span>Get In Touch</span>
+              </a>
+            </motion.div>
           </motion.div>
         </motion.div>
       </div>

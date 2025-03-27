@@ -3,7 +3,7 @@
 import React, { useState } from "react";
 import { motion } from "framer-motion";
 import { useInView } from "react-intersection-observer";
-import { Github, Globe } from "lucide-react";
+import { Github, Globe, ArrowUpRight } from "lucide-react";
 
 const projects = [
   {
@@ -57,163 +57,109 @@ export default function ProjectsSection() {
     visible: {
       opacity: 1,
       transition: {
-        staggerChildren: 0.1,
+        staggerChildren: 0.05,
       },
     },
   };
 
   const itemVariants = {
-    hidden: { opacity: 0, y: 20 },
+    hidden: { opacity: 0, y: 10 },
     visible: {
       opacity: 1,
       y: 0,
       transition: {
-        duration: 0.6,
+        duration: 0.4,
         ease: [0.16, 1, 0.3, 1],
       },
     },
   };
 
   return (
-    <section id="projects" className="py-20 md:py-32 relative bg-secondary/50">
-      {/* Background effect */}
-      <div className="absolute inset-0 -z-10 bg-[linear-gradient(to_left,transparent_0%,rgba(var(--neon),0.05)_50%,transparent_100%)]" />
+    <section id="projects" className="py-20 md:py-32 relative">
+      {/* Minimal background accent */}
+      <div className="absolute inset-0 -z-10 overflow-hidden">
+        <div className="absolute left-0 top-0 w-full h-px bg-accent/10"></div>
+      </div>
 
-      <div className="container mx-auto px-6">
+      <div className="container mx-auto px-4">
         <motion.div
           ref={ref}
           variants={containerVariants}
           initial="hidden"
           animate={inView ? "visible" : "hidden"}
-          className="max-w-6xl mx-auto"
+          className="max-w-5xl mx-auto"
         >
           <motion.div variants={itemVariants} className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold font-ibm-bios">
-              <span className="neon-text">Projects</span>
+            <h2 className="text-2xl md:text-3xl font-bold font-ibm">
+              Projects
             </h2>
-            <div className="mt-3 h-1 w-20 bg-gradient-to-r from-blue-500 to-cyan-500 mx-auto rounded-full" />
+            <div className="mt-3 h-px w-16 bg-accent mx-auto"></div>
           </motion.div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {projects.map((project, idx) => (
               <motion.div
                 key={idx}
                 variants={itemVariants}
-                className="retro-window"
+                className="te-card group te-hover-effect"
                 onMouseEnter={() => setHoveredProject(idx)}
                 onMouseLeave={() => setHoveredProject(null)}
               >
-                <div className="retro-window-header">
-                  <span>{project.title}</span>
+                <div className="border-b border-border pb-2 mb-4 flex justify-between items-center">
+                  <h3 className="font-bold font-ibm text-lg">{project.title}</h3>
+                  <span className="text-xs font-medium text-foreground/60 font-ibm">{project.period}</span>
                 </div>
-                <div className="relative h-48 border-b-4 border-blue-900">
-                  <div className="absolute inset-0 flex items-center justify-center bg-black/30 text-white font-ibm-vga">
-                    {project.title}
-                  </div>
-                  {hoveredProject === idx && (
-                    <motion.div
-                      initial={{ opacity: 0 }}
-                      animate={{ opacity: 1 }}
-                      exit={{ opacity: 0 }}
-                      className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent flex flex-col justify-end p-6"
-                    >
-                      <h4 className="text-xl font-bold text-white mb-2 font-ibm-vga">{project.title}</h4>
-                      <div className="flex gap-3">
-                        {project.link && (
-                          <a
-                            href={project.link}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="p-2 rounded-full retro-terminal hover:brightness-110 transition-all"
-                            aria-label={`GitHub repository for ${project.title}`}
-                          >
-                            <Github size={20} />
-                          </a>
-                        )}
-                        {project.demo && (
-                          <a
-                            href={project.demo}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="p-2 rounded-full retro-terminal hover:brightness-110 transition-all"
-                            aria-label={`Live demo for ${project.title}`}
-                          >
-                            <Globe size={20} />
-                          </a>
-                        )}
-                      </div>
-                    </motion.div>
-                  )}
-                </div>
-
-                <div className="p-6">
-                  <div className="flex justify-between items-start mb-3">
-                    <h3 className="text-xl font-bold font-ibm-vga">{project.title}</h3>
-                    <span className="text-cyan-400 text-sm font-medium font-ibm-vga">{project.period}</span>
-                  </div>
-                  
+                
+                <div className="space-y-4">
                   {project.institution && (
-                    <div className="mb-3 text-sm font-ibm-vga">
+                    <div className="text-sm text-foreground/70">
                       <span>{project.institution}</span>
                     </div>
                   )}
                   
-                  <p className="mb-4 font-ibm-vga text-sm leading-relaxed">{project.description}</p>
+                  <p className="text-sm">{project.description}</p>
                   
-                  <div className="flex flex-wrap gap-2 mb-4">
+                  <div className="flex flex-wrap gap-1.5">
                     {project.tech.map((tech) => (
                       <span
                         key={tech}
-                        className="text-xs px-2 py-1 retro-terminal text-green-400 font-ibm-vga"
+                        className="te-tag"
                       >
                         {tech}
                       </span>
                     ))}
                   </div>
                   
-                  {(project.link || project.demo) && (
-                    <div className="flex gap-4 mt-4">
-                      {project.link && (
-                        <a
-                          href={project.link}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="inline-flex items-center gap-1 text-sm font-medium text-cyan-400 hover:text-cyan-300 transition-colors font-ibm-vga"
-                        >
-                          <span>›</span> View Code 
-                        </a>
-                      )}
-                      {project.demo && (
-                        <a
-                          href={project.demo}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="inline-flex items-center gap-1 text-sm font-medium text-cyan-400 hover:text-cyan-300 transition-colors font-ibm-vga"
-                        >
-                          <span>›</span> Live Demo
-                        </a>
-                      )}
-                    </div>
-                  )}
+                  <div className="flex gap-4 pt-2 mt-auto">
+                    {project.link && (
+                      <a
+                        href={project.link}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center gap-1 text-sm font-medium text-accent hover:underline transition-all group"
+                      >
+                        <Github size={14} />
+                        <span>Code</span>
+                        <ArrowUpRight size={12} className="opacity-0 -translate-x-1 group-hover:opacity-100 group-hover:translate-x-0 transition-all" />
+                      </a>
+                    )}
+                    {project.demo && (
+                      <a
+                        href={project.demo}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center gap-1 text-sm font-medium text-accent hover:underline transition-all group"
+                      >
+                        <Globe size={14} />
+                        <span>Demo</span>
+                        <ArrowUpRight size={12} className="opacity-0 -translate-x-1 group-hover:opacity-100 group-hover:translate-x-0 transition-all" />
+                      </a>
+                    )}
+                  </div>
                 </div>
               </motion.div>
             ))}
           </div>
-
-          <motion.div
-            variants={itemVariants}
-            className="mt-12 text-center"
-          >
-            <a
-              href="https://github.com/deepjijhuvadia"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 px-6 py-3 retro-terminal font-ibm-bios hover:brightness-110 transition-all"
-            >
-              <Github size={18} />
-              <span>C:\OPEN_GITHUB.EXE</span>
-            </a>
-          </motion.div>
         </motion.div>
       </div>
     </section>

@@ -5,49 +5,47 @@
 @layer base {
   :root {
     --background: 0 0% 100%;
-    --foreground: 240 10% 3.9%;
+    --foreground: 0 0% 0%;
     --card: 0 0% 100%;
-    --card-foreground: 240 10% 3.9%;
+    --card-foreground: 0 0% 0%;
     --popover: 0 0% 100%;
-    --popover-foreground: 240 10% 3.9%;
-    --primary: 240 5.9% 10%;
-    --primary-foreground: 0 0% 98%;
-    --secondary: 240 4.8% 95.9%;
-    --secondary-foreground: 240 5.9% 10%;
-    --muted: 240 4.8% 95.9%;
-    --muted-foreground: 240 3.8% 46.1%;
-    --accent: 240 4.8% 95.9%;
-    --accent-foreground: 240 5.9% 10%;
+    --popover-foreground: 0 0% 0%;
+    --primary: 0 0% 0%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 0 0% 90%;
+    --secondary-foreground: 0 0% 0%;
+    --muted: 0 0% 95%;
+    --muted-foreground: 0 0% 40%;
+    --accent: 20 100% 50%; /* Teenage Engineering Orange #FF5C00 */
+    --accent-foreground: 0 0% 100%;
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 0 0% 98%;
-    --border: 240 5.9% 90%;
-    --input: 240 5.9% 90%;
-    --ring: 240 5.9% 10%;
-    --radius: 0.5rem;
-    --neon: 210 100% 50%;
+    --border: 0 0% 90%;
+    --input: 0 0% 90%;
+    --ring: 0 0% 0%;
+    --radius: 0.25rem;
   }
 
   .dark {
-    --background: 240 10% 3.9%;
-    --foreground: 0 0% 98%;
-    --card: 240 10% 3.9%;
-    --card-foreground: 0 0% 98%;
-    --popover: 240 10% 3.9%;
-    --popover-foreground: 0 0% 98%;
-    --primary: 0 0% 98%;
-    --primary-foreground: 240 5.9% 10%;
-    --secondary: 240 3.7% 15.9%;
-    --secondary-foreground: 0 0% 98%;
-    --muted: 240 3.7% 15.9%;
-    --muted-foreground: 240 5% 64.9%;
-    --accent: 240 3.7% 15.9%;
-    --accent-foreground: 0 0% 98%;
+    --background: 0 0% 0%;
+    --foreground: 0 0% 100%;
+    --card: 0 0% 5%;
+    --card-foreground: 0 0% 100%;
+    --popover: 0 0% 5%;
+    --popover-foreground: 0 0% 100%;
+    --primary: 0 0% 100%;
+    --primary-foreground: 0 0% 0%;
+    --secondary: 0 0% 15%;
+    --secondary-foreground: 0 0% 100%;
+    --muted: 0 0% 15%;
+    --muted-foreground: 0 0% 65%;
+    --accent: 20 100% 50%; /* Teenage Engineering Orange #FF5C00 */
+    --accent-foreground: 0 0% 100%;
     --destructive: 0 62.8% 30.6%;
     --destructive-foreground: 0 0% 98%;
-    --border: 240 3.7% 15.9%;
-    --input: 240 3.7% 15.9%;
-    --ring: 240 4.9% 83.9%;
-    --neon: 210 100% 50%;
+    --border: 0 0% 20%;
+    --input: 0 0% 20%;
+    --ring: 0 0% 100%;
   }
 }
 
@@ -62,27 +60,39 @@
   }
 }
 
-/* Glassmorphism */
+/* New Minimal Design Components */
 @layer components {
-  .glass {
-    @apply backdrop-blur-md bg-white/10 dark:bg-black/20 border border-white/20 dark:border-white/10;
+  /* Clean, minimal card */
+  .te-card {
+    @apply bg-card border border-border rounded-sm p-4 transition-all duration-300;
   }
   
-  .glass-card {
-    @apply glass shadow-lg hover:shadow-xl transition-all duration-300;
-  }
-
-  .neon-text {
-    @apply text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-cyan-400;
-    text-shadow: 0 0 10px rgba(59, 130, 246, 0.5), 0 0 20px rgba(59, 130, 246, 0.3);
+  /* Minimal glass effect */
+  .te-glass {
+    @apply backdrop-blur-sm bg-white/5 dark:bg-black/10 border border-white/10 dark:border-white/5;
   }
   
-  .neon-border {
-    @apply border border-blue-500/50;
-    box-shadow: 0 0 5px rgba(59, 130, 246, 0.5), 0 0 10px rgba(59, 130, 246, 0.3) inset;
+  /* Minimal buttons */
+  .te-button {
+    @apply px-4 py-2 border border-accent bg-background text-accent hover:bg-accent hover:text-accent-foreground transition-colors duration-300 rounded-sm;
   }
   
-  /* Oldschool PC Font Utilities */
+  .te-button-filled {
+    @apply px-4 py-2 bg-accent text-accent-foreground hover:bg-accent/90 transition-colors duration-300 rounded-sm;
+  }
+  
+  /* Monospace tag style */
+  .te-tag {
+    @apply inline-flex items-center px-2 py-1 bg-secondary text-secondary-foreground text-xs rounded-sm;
+  }
+  
+  /* Terminal-style container */
+  .te-terminal {
+    font-family: var(--font-ibm-vga);
+    @apply bg-secondary/80 dark:bg-black p-4 rounded-sm border border-border text-foreground dark:text-primary;
+  }
+  
+  /* Old styles maintained for backward compatibility */
   .font-ibm-vga {
     font-family: var(--font-ibm-vga);
   }
@@ -90,21 +100,217 @@
   .font-ibm-bios {
     font-family: var(--font-ibm-bios);
   }
-  
-  .retro-terminal {
-    font-family: var(--font-ibm-vga);
-    @apply bg-black text-green-500 p-4 rounded-lg border-2 border-green-500/50;
-    box-shadow: 0 0 10px rgba(74, 222, 128, 0.3), 0 0 5px rgba(74, 222, 128, 0.2) inset;
+}
+
+/* Animation Keyframes */
+@keyframes cursor-blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+@keyframes slight-hover {
+  0% { transform: translateY(0); }
+  100% { transform: translateY(-3px); }
+}
+
+@keyframes boot-flicker {
+  0%, 100% { opacity: 1; }
+  10% { opacity: 0.3; }
+  15% { opacity: 1; }
+  25% { opacity: 0.8; }
+  30% { opacity: 1; }
+  40% { opacity: 0.5; }
+  50% { opacity: 1; }
+  60% { opacity: 0.7; }
+  70% { opacity: 1; }
+}
+
+@keyframes fade-in-up {
+  0% { 
+    opacity: 0;
+    transform: translateY(10px);
   }
-  
-  .retro-window {
-    font-family: var(--font-ibm-vga);
-    @apply bg-blue-900 text-white p-4 rounded-lg border-2 border-gray-300;
-    box-shadow: inset 2px 2px 0 white, inset -2px -2px 0 #666;
+  100% { 
+    opacity: 1;
+    transform: translateY(0);
   }
-  
-  .retro-window-header {
-    font-family: var(--font-ibm-vga);
-    @apply bg-blue-800 text-white px-2 py-1 border-b border-gray-300 -mt-4 -mx-4 mb-4 flex justify-between items-center;
+}
+
+@keyframes fade-in {
+  0% { opacity: 0; }
+  100% { opacity: 1; }
+}
+
+@keyframes typewriter {
+  from { width: 0; }
+  to { width: 100%; }
+}
+
+@keyframes crt-horizontal {
+  0% { transform: translateX(-0.25px); }
+  50% { transform: translateX(0.25px); }
+  100% { transform: translateX(-0.25px); }
+}
+
+@keyframes glitch {
+  0% { transform: translateX(0); }
+  25% { transform: translateX(1px); }
+  50% { transform: translateX(-1px); }
+  75% { transform: translateX(1px); }
+  100% { transform: translateX(0); }
+}
+
+@keyframes neon-pulse {
+  0%, 100% { 
+    box-shadow: 0 0 4px 1px rgba(255, 92, 0, 0.2);
+    filter: brightness(1);
   }
+  50% { 
+    box-shadow: 0 0 8px 2px rgba(255, 92, 0, 0.4);
+    filter: brightness(1.05);
+  }
+}
+
+/* Animation Utilities */
+.te-cursor-blink {
+  position: relative;
+}
+
+.te-cursor-blink::after {
+  content: '█';
+  position: absolute;
+  margin-left: 2px;
+  animation: cursor-blink 1s infinite;
+}
+
+.te-hover-effect {
+  transition: transform 0.3s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+.te-hover-effect:hover {
+  animation: slight-hover 0.3s forwards;
+}
+
+.te-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 1rem;
+}
+
+/* Boot Animation */
+.te-boot {
+  animation: boot-flicker 2s ease-in-out;
+}
+
+.te-fade-in {
+  animation: fade-in 0.6s ease-out forwards;
+}
+
+.te-fade-in-up {
+  opacity: 0;
+  animation: fade-in-up 0.8s ease-out forwards;
+}
+
+.te-fade-in-delayed {
+  opacity: 0;
+  animation: fade-in 0.8s ease-out forwards;
+  animation-delay: 0.3s;
+}
+
+.te-typing {
+  overflow: hidden;
+  white-space: nowrap;
+  display: inline-block;
+  position: relative;
+  animation: typewriter 2s steps(40, end) forwards;
+}
+
+/* CRT Effects */
+.te-scanlines {
+  position: relative;
+  overflow: hidden;
+}
+
+.te-scanlines::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    to bottom,
+    transparent 50%,
+    rgba(0, 0, 0, 0.05) 50%
+  );
+  background-size: 100% 4px;
+  pointer-events: none;
+  z-index: 10;
+  opacity: 0.15;
+}
+
+.te-crt-distortion {
+  position: relative;
+  animation: crt-horizontal 0.1s infinite linear;
+}
+
+/* Hover Effects */
+.te-button-glow {
+  transition: all 0.3s ease;
+}
+
+.te-button-glow:hover {
+  animation: neon-pulse 2s infinite ease-in-out;
+}
+
+.te-link {
+  position: relative;
+  transition: all 0.2s ease;
+}
+
+.te-link::after {
+  content: '';
+  position: absolute;
+  width: 0;
+  height: 1px;
+  bottom: -2px;
+  left: 0;
+  background-color: hsl(var(--accent));
+  transition: width 0.3s ease;
+}
+
+.te-link:hover::after {
+  width: 100%;
+}
+
+.te-link:hover {
+  animation: glitch 0.2s ease-in-out;
+}
+
+/* Parallax and Scroll Effects */
+.te-parallax {
+  transition: transform 0.1s cubic-bezier(0.2, 0, 0.3, 1);
+}
+
+/* Hardware Switch Effect */
+.te-switch {
+  transition: transform 0.1s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.te-switch:hover {
+  transform: scale(1.02);
+}
+
+.te-switch:active {
+  transform: scale(0.98);
+}
+
+/* Custom scroll behavior */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Custom cursor styles */
+.te-cursor-dot {
+  cursor: none;
 }

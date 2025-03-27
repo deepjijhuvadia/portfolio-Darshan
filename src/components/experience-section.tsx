@@ -72,18 +72,18 @@ export default function ExperienceSection() {
     visible: {
       opacity: 1,
       transition: {
-        staggerChildren: 0.1,
+        staggerChildren: 0.05,
       },
     },
   };
 
   const itemVariants = {
-    hidden: { opacity: 0, y: 20 },
+    hidden: { opacity: 0, y: 10 },
     visible: {
       opacity: 1,
       y: 0,
       transition: {
-        duration: 0.6,
+        duration: 0.4,
         ease: [0.16, 1, 0.3, 1],
       },
     },
@@ -91,72 +91,77 @@ export default function ExperienceSection() {
 
   return (
     <section id="experience" className="py-20 md:py-32 relative">
-      {/* Background elements */}
-      <div className="absolute inset-0 -z-10">
-        <div className="absolute right-0 bottom-1/3 w-72 h-72 bg-blue-500/10 rounded-full blur-3xl" />
-        <div className="absolute left-0 top-1/2 w-72 h-72 bg-cyan-500/10 rounded-full blur-3xl" />
+      {/* Minimal background accent */}
+      <div className="absolute inset-0 -z-10 overflow-hidden">
+        <div className="absolute right-0 top-0 w-px h-full bg-accent/10"></div>
       </div>
       
-      <div className="container mx-auto px-6">
+      <div className="container mx-auto px-4">
         <motion.div
           ref={ref}
           variants={containerVariants}
           initial="hidden"
           animate={inView ? "visible" : "hidden"}
-          className="max-w-5xl mx-auto"
+          className="max-w-4xl mx-auto"
         >
           <motion.div variants={itemVariants} className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold font-ibm-bios">
-              <span className="neon-text">Experience & Education</span>
+            <h2 className="text-2xl md:text-3xl font-bold font-ibm">
+              Experience & Education
             </h2>
-            <div className="mt-3 h-1 w-20 bg-gradient-to-r from-blue-500 to-cyan-500 mx-auto rounded-full" />
+            <div className="mt-3 h-px w-16 bg-accent mx-auto"></div>
           </motion.div>
 
           <div className="space-y-12">
             <div>
               <motion.h3 
                 variants={itemVariants} 
-                className="text-2xl font-bold mb-8 inline-flex items-center gap-3 font-ibm-bios text-cyan-400"
+                className="text-xl font-bold mb-6 font-ibm text-accent flex items-center"
               >
-                <span>C:\WORK_EXPERIENCE.EXE</span>
-                <div className="h-px w-16 bg-gradient-to-r from-blue-500 to-cyan-500" />
+                <span className="mr-3">Work Experience</span>
+                <div className="h-px flex-grow bg-accent/20"></div>
               </motion.h3>
 
-              <div className="relative space-y-8">
+              <div className="relative space-y-5">
+                {/* Timeline connector */}
+                <div className="absolute left-0 top-0 bottom-0 w-px bg-border ml-3 hidden md:block"></div>
+                
                 {experiences.map((exp, index) => (
                   <motion.div 
                     key={index}
                     variants={itemVariants}
                     className="relative"
                   >
-                    <div className="retro-window">
-                      <div className="retro-window-header">
-                        <span>{exp.title} at {exp.company}</span>
+                    <div className="md:pl-10 relative">
+                      {/* Timeline dot */}
+                      <div className="absolute left-0 top-2 w-6 h-6 rounded-sm border border-accent flex items-center justify-center bg-background hidden md:flex">
+                        <div className="w-2 h-2 bg-accent"></div>
                       </div>
-                      <div className="p-6">
-                        <div className="flex flex-col md:flex-row md:items-center justify-between gap-2 mb-4">
-                          <h4 className="text-xl font-bold font-ibm-vga">{exp.title}</h4>
-                          <span className="text-cyan-400 text-sm font-medium font-ibm-vga px-3 py-1">
+                      
+                      <div className="te-card hover:border-accent/50 transition-colors duration-300">
+                        <div className="flex flex-col md:flex-row md:items-center justify-between gap-2 mb-3">
+                          <h4 className="text-lg font-bold font-ibm">{exp.title}</h4>
+                          <span className="text-accent text-sm font-medium px-2 py-0.5 border border-accent/20 font-ibm">
                             {exp.period}
                           </span>
                         </div>
-                        <div className="flex flex-col md:flex-row gap-2 mb-4 font-ibm-vga">
+                        <div className="flex flex-col md:flex-row gap-2 mb-4 text-sm text-foreground/70">
                           <span className="font-medium">{exp.company}</span>
-                          <span className="hidden md:inline">•</span>
+                          <span className="hidden md:inline text-foreground/40">•</span>
                           <span>{exp.location}</span>
                         </div>
-                        <ul className="space-y-2 mb-4 font-ibm-vga">
+                        <ul className="space-y-2 mb-4 text-sm">
                           {exp.description.map((item, i) => (
-                            <li key={i} className="text-sm md:text-base flex">
-                              <span className="mr-2 text-cyan-400">›</span> {item}
+                            <li key={i} className="flex gap-2">
+                              <span className="text-accent">›</span> 
+                              <span>{item}</span>
                             </li>
                           ))}
                         </ul>
-                        <div className="flex flex-wrap gap-2 mt-4">
+                        <div className="flex flex-wrap gap-1.5 mt-4">
                           {exp.skills.map((skill) => (
                             <span 
                               key={skill} 
-                              className="text-xs px-2 py-1 retro-terminal text-green-400 font-ibm-vga"
+                              className="te-tag"
                             >
                               {skill}
                             </span>
@@ -172,10 +177,10 @@ export default function ExperienceSection() {
             <div>
               <motion.h3 
                 variants={itemVariants} 
-                className="text-2xl font-bold mb-8 inline-flex items-center gap-3 font-ibm-bios text-cyan-400"
+                className="text-xl font-bold mb-6 font-ibm text-accent flex items-center"
               >
-                <span>C:\EDUCATION.EXE</span>
-                <div className="h-px w-16 bg-gradient-to-r from-blue-500 to-cyan-500" />
+                <span className="mr-3">Education</span>
+                <div className="h-px flex-grow bg-accent/20"></div>
               </motion.h3>
 
               <div className="relative">
@@ -185,37 +190,33 @@ export default function ExperienceSection() {
                     variants={itemVariants}
                     className="relative"
                   >
-                    <div className="retro-window">
-                      <div className="retro-window-header">
-                        <span>{edu.degree}</span>
+                    <div className="te-card hover:border-accent/50 transition-colors duration-300">
+                      <div className="flex flex-col md:flex-row md:items-center justify-between gap-2 mb-3">
+                        <h4 className="text-lg font-bold font-ibm">{edu.degree}</h4>
+                        <span className="text-accent text-sm font-medium px-2 py-0.5 border border-accent/20 font-ibm">
+                          {edu.period}
+                        </span>
                       </div>
-                      <div className="p-6">
-                        <div className="flex flex-col md:flex-row md:items-center justify-between gap-2 mb-4">
-                          <h4 className="text-xl font-bold font-ibm-vga">{edu.degree}</h4>
-                          <span className="text-cyan-400 text-sm font-medium font-ibm-vga px-3 py-1">
-                            {edu.period}
+                      <div className="mb-4 text-sm text-foreground/70">
+                        <span className="font-medium">{edu.institution}</span>
+                      </div>
+                      <ul className="space-y-2 mb-4 text-sm">
+                        {edu.description.map((item, i) => (
+                          <li key={i} className="flex gap-2">
+                            <span className="text-accent">›</span>
+                            <span>{item}</span>
+                          </li>
+                        ))}
+                      </ul>
+                      <div className="flex flex-wrap gap-1.5 mt-4">
+                        {edu.skills.map((skill) => (
+                          <span 
+                            key={skill} 
+                            className="te-tag"
+                          >
+                            {skill}
                           </span>
-                        </div>
-                        <div className="mb-4 font-ibm-vga">
-                          <span className="font-medium">{edu.institution}</span>
-                        </div>
-                        <ul className="space-y-2 mb-4 font-ibm-vga">
-                          {edu.description.map((item, i) => (
-                            <li key={i} className="text-sm md:text-base flex">
-                              <span className="mr-2 text-cyan-400">›</span> {item}
-                            </li>
-                          ))}
-                        </ul>
-                        <div className="flex flex-wrap gap-2 mt-4">
-                          {edu.skills.map((skill) => (
-                            <span 
-                              key={skill} 
-                              className="text-xs px-2 py-1 retro-terminal text-green-400 font-ibm-vga"
-                            >
-                              {skill}
-                            </span>
-                          ))}
-                        </div>
+                        ))}
                       </div>
                     </div>
                   </motion.div>

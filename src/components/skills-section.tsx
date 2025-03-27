@@ -55,7 +55,7 @@ const skillCategories = [
 
 export default function SkillsSection() {
   const [ref, inView] = useInView({
-    triggerOnce: true,
+    triggerOnce: false,
     threshold: 0.1,
   });
 
@@ -64,7 +64,8 @@ export default function SkillsSection() {
     visible: {
       opacity: 1,
       transition: {
-        staggerChildren: 0.1,
+        staggerChildren: 0.08,
+        delayChildren: 0.1,
       },
     },
   };
@@ -81,49 +82,131 @@ export default function SkillsSection() {
     },
   };
 
-  return (
-    <section id="skills" className="py-20 md:py-32 relative bg-secondary/50">
-      {/* Background effect */}
-      <div className="absolute inset-0 -z-10 bg-[linear-gradient(to_right,transparent_0%,rgba(var(--neon),0.05)_50%,transparent_100%)]" />
+  const tagVariants = {
+    hidden: { opacity: 0, scale: 0.8 },
+    visible: {
+      opacity: 1,
+      scale: 1,
+      transition: {
+        duration: 0.4,
+        ease: [0.16, 1, 0.3, 1],
+      }
+    },
+    hover: {
+      scale: 1.05,
+      backgroundColor: "hsl(var(--accent) / 0.15)",
+      color: "hsl(var(--accent))",
+      transition: {
+        duration: 0.2,
+        ease: "easeOut",
+      }
+    }
+  };
 
-      <div className="container mx-auto px-6">
+  return (
+    <section id="skills" className="py-20 md:py-32 relative">
+      {/* Minimal background accent */}
+      <div className="absolute inset-0 -z-10 overflow-hidden">
+        <div className="absolute left-0 top-0 w-full h-px bg-accent/10"></div>
+        <div className="absolute right-0 top-0 w-px h-full bg-accent/10"></div>
+      </div>
+
+      <div className="container mx-auto px-4">
         <motion.div
           ref={ref}
           variants={containerVariants}
           initial="hidden"
           animate={inView ? "visible" : "hidden"}
-          className="max-w-6xl mx-auto"
+          className="max-w-5xl mx-auto"
         >
-          <motion.div variants={itemVariants} className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold font-ibm-bios">
-              <span className="neon-text">TECHNICAL SKILLS</span>
+          <motion.div 
+            variants={itemVariants} 
+            className="text-center mb-16"
+            whileInView={{ 
+              opacity: [0.5, 1],
+              y: [10, 0],
+              transition: { duration: 0.6 }
+            }}
+            viewport={{ once: true, margin: "-100px" }}
+          >
+            <h2 className="text-2xl md:text-3xl font-bold font-ibm te-crt-distortion">
+              Technical Skills
             </h2>
-            <div className="mt-3 h-1 w-20 bg-gradient-to-r from-blue-500 to-cyan-500 mx-auto rounded-full" />
+            <motion.div 
+              className="mt-3 h-px w-16 bg-accent mx-auto"
+              animate={{ width: inView ? "4rem" : "0rem" }}
+              transition={{ duration: 0.8, delay: 0.2 }}
+            ></motion.div>
           </motion.div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {skillCategories.map((category) => (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {skillCategories.map((category, categoryIndex) => (
               <motion.div
                 key={category.name}
                 variants={itemVariants}
-                className="retro-window"
+                className="te-card te-parallax"
+                whileHover={{ y: -5, transition: { duration: 0.2 } }}
+                initial={{ opacity: 0, y: 15 }}
+                whileInView={{ 
+                  opacity: 1, 
+                  y: 0,
+                  transition: { 
+                    duration: 0.5, 
+                    delay: categoryIndex * 0.1 
+                  }
+                }}
+                viewport={{ once: true, margin: "-50px" }}
               >
-                <div className="retro-window-header">
-                  <span className="font-bold text-cyan-300">{category.name}</span>
-                  <div className="flex gap-1">
-                    <div className="w-3 h-3 bg-gray-300"></div>
-                    <div className="w-3 h-3 bg-gray-300"></div>
-                  </div>
-                </div>
+                <motion.div 
+                  className="border-b border-border pb-2 mb-4"
+                  whileHover={{ borderColor: "hsl(var(--accent))" }}
+                >
+                  <motion.span 
+                    className="font-bold text-accent font-ibm"
+                    whileInView={{ 
+                      opacity: [0, 1], 
+                      x: [-10, 0],
+                      transition: { duration: 0.5, delay: 0.2 }
+                    }}
+                    viewport={{ once: true }}
+                  >
+                    {category.name}
+                  </motion.span>
+                </motion.div>
 
-                <div className="space-y-4">
-                  {category.items.map((skill) => (
-                    <div key={skill.name} className="flex items-start gap-2">
-                      <div className="mt-1.5 text-cyan-400">›</div>
-                      <span>
+                <div className="space-y-3">
+                  {category.items.map((skill, skillIndex) => (
+                    <motion.div 
+                      key={skill.name} 
+                      className="flex items-start gap-2"
+                      initial={{ opacity: 0, x: -10 }}
+                      whileInView={{ 
+                        opacity: 1, 
+                        x: 0,
+                        transition: { 
+                          duration: 0.3, 
+                          delay: 0.1 + (skillIndex * 0.08)
+                        }
+                      }}
+                      viewport={{ once: true }}
+                    >
+                      <motion.div 
+                        className="w-4 text-accent"
+                        initial={{ opacity: 0 }}
+                        whileInView={{ opacity: 1 }}
+                        transition={{ duration: 0.3, delay: 0.2 + (skillIndex * 0.1) }}
+                        viewport={{ once: true }}
+                        whileHover={{ scale: 1.2 }}
+                      >
+                        »
+                      </motion.div>
+                      <motion.span 
+                        className="text-sm"
+                        whileHover={{ color: "hsl(var(--accent))" }}
+                      >
                         {skill.name}
-                      </span>
-                    </div>
+                      </motion.span>
+                    </motion.div>
                   ))}
                 </div>
               </motion.div>
@@ -132,24 +215,53 @@ export default function SkillsSection() {
 
           <motion.div
             variants={itemVariants}
-            className="mt-16 retro-terminal p-6 rounded-lg"
+            className="mt-16 te-terminal p-6 te-scanlines"
+            whileHover={{ 
+              boxShadow: "0 0 30px rgba(var(--accent), 0.1)", 
+              transition: { duration: 0.3 } 
+            }}
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0, transition: { duration: 0.7 } }}
+            viewport={{ once: true, margin: "-100px" }}
           >
-            <div className="text-center mb-4">
-              <h3 className="text-xl font-bold font-ibm-bios mb-4">
-                ADDITIONAL TECHNOLOGIES
-              </h3>
-              <div className="inline-block h-0.5 w-full bg-green-500/60 mb-6"></div>
-            </div>
-            <div className="flex flex-wrap justify-center gap-3">
+            <motion.div 
+              className="text-center mb-4"
+              initial={{ opacity: 0 }}
+              whileInView={{ opacity: 1, transition: { duration: 0.5, delay: 0.3 } }}
+              viewport={{ once: true }}
+            >
+              <motion.h3 
+                className="text-xl font-bold font-ibm mb-4 te-typing"
+                initial={{ width: "0%" }}
+                whileInView={{ width: "100%", transition: { duration: 1.5 } }}
+                viewport={{ once: true }}
+              >
+                Additional Technologies
+              </motion.h3>
+              <motion.div 
+                className="inline-block h-px w-full bg-accent/40 mb-6"
+                initial={{ scaleX: 0 }}
+                whileInView={{ scaleX: 1, transition: { duration: 0.8, delay: 0.5 } }}
+                viewport={{ once: true }}
+              ></motion.div>
+            </motion.div>
+            <div className="flex flex-wrap justify-center gap-2">
               {["OCR", "NLP", "LLaMA", "LangChain", "Transformer Models", "YOLO", 
                "Computer Vision", "Object Detection", "Flask", "Microservices",
-               "Data Analysis", "Pattern Recognition", "Pandas", "NumPy"].map((tech) => (
-                <span 
+               "Data Analysis", "Pattern Recognition", "Pandas", "NumPy"].map((tech, index) => (
+                <motion.span 
                   key={tech}
-                  className="px-3 py-1 border border-green-500/70 rounded text-sm"
+                  className="te-tag"
+                  variants={tagVariants}
+                  initial="hidden"
+                  whileInView="visible"
+                  whileHover="hover"
+                  viewport={{ once: true }}
+                  custom={index}
+                  transition={{ delay: 0.5 + (index * 0.05) }}
                 >
                   {tech}
-                </span>
+                </motion.span>
               ))}
             </div>
           </motion.div>
