@@ -4,6 +4,7 @@ import React from "react";
 import { motion } from "framer-motion";
 import { useInView } from "react-intersection-observer";
 import { Github, Globe, ArrowUpRight } from "lucide-react";
+import { TypeAnimation } from "react-type-animation";
 
 const projects = [
   {
@@ -90,7 +91,22 @@ export default function ProjectsSection() {
         >
           <motion.div variants={itemVariants} className="text-center mb-16">
             <h2 className="text-2xl md:text-3xl font-bold font-ibm">
-              Projects
+              <TypeAnimation
+                sequence={[
+                  "Projects",
+                  1000,
+                  "My Work",
+                  1000,
+                  "Portfolio",
+                  1000,
+                  "Projects",
+                ]}
+                wrapper="span"
+                speed={25}
+                repeat={1}
+                cursor={true}
+                className="inline-block"
+              />
             </h2>
             <div className="mt-3 h-px w-16 bg-accent mx-auto"></div>
           </motion.div>
